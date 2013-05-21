@@ -5,6 +5,14 @@
   src: local('Oswald Regular'), local('Oswald-Regular'), url(/res/fonts/Oswald.woff) format('woff');
 }
 
+.main-image {
+  width: 100%;
+}
+
+.ui-body-c {
+  background-image: url('/res/img/grey_wash_wall.png');
+}
+
 .ui-header h1.ui-title {
   font-size: 20px;
   text-align: left;
@@ -14,4 +22,12 @@
   margin-bottom: 0.3em;
   background: url('/res/orange_slice_title.svg') left no-repeat;
   font-family: 'Oswald', sans-serif;
+}
+
+.ui-footer {
+  text-align: center;
+}
+
+.ui-controlgroup {
+  margin: 0.1em 0;
 }
