@@ -7,6 +7,7 @@
 
 .main-image {
   width: 100%;
+  position: absolute;
 }
 
 .ui-body-c {
@@ -30,4 +31,16 @@
 
 .ui-controlgroup {
   margin: 0.1em 0;
+}
+
+#like.highlight {
+  color: rgb(106, 202, 76);
+}
+
+#dislike.highlight {
+  color: rgb(250, 36, 27);
+}
+
+#save.highlight {
+  color: yellow;
 }

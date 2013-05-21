@@ -58,8 +58,10 @@ var image = {
             reverse = true;
         }
         page.load(this.value.store[this.value.order[index]]);
-        //$.mobile.changePage(img_loc + this.value.store[index],{'transition': 'slide', 'reverse': reverse} );
-    }  
+    },
+	current : function() {
+		return this.value.store[this.value.order[this.value.index]];
+	}
 }
 
 
@@ -71,11 +73,40 @@ var page = {
     load : function(image) {
         $('.main-image').hide();
         $('#' + image.uid).show();
+        //reset buttons
+        $('#like').removeClass('highlight'); $('#like .ui-btn-text').html('Like');
+        $('#dislike').removeClass('highlight'); $('#dislike .ui-btn-text').html('Dislike');
+        $('#save').removeClass('highlight'); $('#save .ui-btn-text').html('Save');
+        //set buttons
+        if (image.data) {
+            if (image.data.like) {
+                $('#like').addClass('highlight'); $('#like .ui-btn-text').html('Liked');
+            }
+            if (image.data.dislike) {
+                $('#dislike').addClass('highlight'); $('#dislike .ui-btn-text').html('Disliked');
+            }
+            if (image.data.save) {
+                $('#save').addClass('highlight'); $('#save .ui-btn-text').html('Saved');
+            }
+        }
+        $('#one').scrollTop(0);
     }
 }
 
 var exception_handler = function(e) {
-    navigator.notification.alert(e.message);
+	switch (e.name) {
+		case 1020: //Must be logged in to save image
+		case 1021: //Must be logged in to unsave image
+		case 1022://Must be logged in to like images
+		case 1023://Must be logged in to dislike images
+		$('#like').removeClass('highlight');
+		$('#dislike').removeClass('highlight');
+		$('#save').removeClass('highlight');
+		$.mobile.changePage($('#login'), {role: 'dialog'});
+		break;
+	}
+  //navigator.notification.alert(e.message);
+	console.log(e.message);
 }
 
 var add_icon = function(id, icon){
@@ -98,7 +129,31 @@ $(document).ready(function(){
  $('#next').click(function() {
     image.next();   
  });
-	
+
+ $('#like').click(function() {
+	var i = image.current();
+	$('#like').addClass('highlight');
+	$('#dislike').removeClass('highlight');
+	api.call('image/like',function(){},{image:i.uid});
+ });
+ 
+ $('#dislike').click(function() {
+	var i = image.current();
+	$('#dislike').addClass('highlight');
+	$('#like').removeClass('highlight');
+	api.call('image/dislike',function(){},{image:i.uid});
+ });
+
+ $('#save').click(function() {
+  var i = image.current();
+  $('#save').toggleClass('highlight');
+  if ($('#save').hasClass('highlight')) {
+   api.call('image/save',function(){},{image:i.uid});
+  } else {
+   api.call('image/unsave',function(){},{image:i.uid});
+  } 
+ });
+
 });
 
 

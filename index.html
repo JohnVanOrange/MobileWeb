@@ -34,10 +34,12 @@
   </div>
   
   <div data-role="panel" id="menu" data-position="right" data-display="push">
-    <ul data-role="listview">
-	  <li><a href="#login" data-rel='dialog'>Login</a></li>
-	  <li><a href="#report" data-rel='dialog' id='report_button'>Report Image</a></li>
-	  <li><a href="#create" data-rel='dialog'>Create Account</a></li>
+    <ul data-role="listview" data-theme="a">
+      <li data-role="list-divider">Account</li>
+			<li><a href="#login" data-rel='dialog'>Login</a></li>
+      <li><a href="#create" data-rel='dialog'>Create</a></li>
+      <li data-role="list-divider">Image</li>
+			<li><a href="#report" data-rel='dialog' id='report_button'>Report</a></li>
     </ul>
   </div>
   
@@ -48,7 +50,7 @@
     <div data-role="header" class="ui-corner-all">
       <h3>Sign in</h3>
     </div>
-    <a href="#create" data-rel='dialog' data-role="button">Create Account</a>
+    <a href="#create" data-rel='dialog' data-role="button" data-theme="b">Create Account</a>
     <label for="login_username" class="ui-hidden-accessible">Username</label>
     <input type='text' name='login_username' id='login_username' placeholder='Username'>
     <label for="login_password" class="ui-hidden-accessible">Password</label>
