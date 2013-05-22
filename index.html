@@ -30,19 +30,20 @@
     <div data-role="controlgroup" data-type="horizontal">
       <a href='#' id='prev' data-icon='arrow-l' data-role="button">Back</a>
       <a href="#" id='dislike' data-role="button">Dislike</a>
-			<a href="#" id='like' data-role="button">Like</a>
+	  <a href="#" id='like' data-role="button">Like</a>
       <a href="#" id='save' data-role="button">Save</a>
       <a href='#' id='next' data-icon='arrow-r' data-role="button" data-iconpos='right'>Next</a>
     </div>
   </div>
   
   <div data-role="panel" id="menu" data-position="right" data-display="push">
-    <ul data-role="listview" data-theme="a">
+    <ul data-role="listview" data-theme="a" id='right_panel_lv'>
       <li data-role="list-divider">Account</li>
-			<li><a href="#login" data-rel='dialog'>Login</a></li>
-      <li><a href="#create" data-rel='dialog'>Create</a></li>
+        <li><a href="#login" id='login_link' data-rel='dialog'>Login</a></li>
+        <li><a href="#create" id='create_link' data-rel='dialog'>Create</a></li>
+        <li><a href="#" id='logout_link'>Logout</a></li>
       <li data-role="list-divider">Image</li>
-			<li><a href="#report" data-rel='dialog' id='report_button'>Report</a></li>
+        <li><a href="#report" data-rel='dialog' id='report_button'>Report</a></li>
     </ul>
   </div>
   

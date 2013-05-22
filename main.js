@@ -1,32 +1,31 @@
 var api = {
- client : function (method, callback, opt) {
-  if (!opt) {
-    opt = {};
-  }
-  opt.sid = auth.get();
-  var url = api_url + method;
-  $.ajax({
-   type: 'post',
-   async: false,
-   url: url,
-   data: opt,
-   dataType: 'json',
-   success: function(response) {
-    try {
-     if (response.hasOwnProperty('error')) {
-      throw {name: response.error, message: response.message};
-     }
-     callback(response);
-     //process(response);
-    } catch(e) {
-     exception_handler(e);
-    }
-   }
-  });
- },
- call : function (method, callback, opt) {
-  return this.client(method, callback, opt);
- }
+	client : function (method, callback, opt) {
+		if (!opt) {
+			opt = {};
+		}
+		opt.sid = auth.get();
+		var url = api_url + method;
+		$.ajax({
+			type: 'post',
+			async: false,
+			url: url,
+			data: opt,
+			dataType: 'json',
+			success: function(response) {
+				try {
+					if (response.hasOwnProperty('error')) {
+						throw {name: response.error, message: response.message};
+					}
+					callback(response);
+				} catch(e) {
+					exception_handler(e);
+				}
+			}
+		});
+	},
+	call : function (method, callback, opt) {
+		return this.client(method, callback, opt);
+	}
 };
 
 var image = {
@@ -125,89 +124,104 @@ var exception_handler = function(e) {
 		$.mobile.changePage($('#login'), {role: 'dialog'});
 		break;
 	}
-  //navigator.notification.alert(e.message);
+	//navigator.notification.alert(e.message);
 	console.log(e.message);
 }
 
 var add_icon = function(id, icon){
- $('#' + id + ' span.ui-btn-inner').addClass('icon-' + icon);
+	$('#' + id + ' span.ui-btn-inner').addClass('icon-' + icon);
 }
 
 $(document).ready(function(){
- add_icon('menu-button', 'menu');
- add_icon('like', 'thumbs-up');
- add_icon('dislike', 'thumbs-down');
- add_icon('save', 'star-1');
+	$('#logout_link').parent().parent().hide();
+	$('#right_panel_lv').listview('refresh');
+	
+	add_icon('menu-button', 'menu');
+	add_icon('like', 'thumbs-up');
+	add_icon('dislike', 'thumbs-down');
+	add_icon('save', 'star-1');
  
- image.next();
- image.new(); image.new();
+	image.next();
+	image.new(); image.new();
  
- $('#prev').click(function() {
-    image.prev();   
- });
+	$('#prev').click(function() {
+		image.prev();   
+	});
+	 
+	$('#next').click(function() {
+		image.next();   
+	});
+	
+	$('#like').click(function() {
+		var i = image.current();
+		api.call('image/like',function(){
+			image.update(i.uid);
+		},{image: i.uid});
+	});
+	 
+	$('#dislike').click(function() {
+		var i = image.current();
+		api.call('image/dislike',function(){
+			image.update(i.uid);
+		},{image: i.uid});
+	});
+	
+	$('#save').click(function() {
+		var i = image.current();
+		if (!$('#save').hasClass('highlight')) {
+			api.call('image/save',function(){
+				image.update(i.uid);
+			},{image: i.uid});
+		} else {
+			api.call('image/unsave',function(){
+				image.update(i.uid);
+			},{image: i.uid});
+		} 
+	});
  
- $('#next').click(function() {
-    image.next();   
- });
-
- $('#like').click(function() {
-    var i = image.current();
-    //$('#like').addClass('highlight');
-    //$('#dislike').removeClass('highlight');
-    api.call('image/like',function(){
-        image.update(i.uid);
-    },{image: i.uid});
- });
- 
- $('#dislike').click(function() {
-    var i = image.current();
-    //$('#dislike').addClass('highlight');
-    //$('#like').removeClass('highlight');
-    api.call('image/dislike',function(){
-        image.update(i.uid);
-    },{image: i.uid});
- });
-
- $('#save').click(function() {
-    var i = image.current();
-    //$('#save').toggleClass('highlight');
-    if (!$('#save').hasClass('highlight')) {
-        api.call('image/save',function(){
-            image.update(i.uid);
-        },{image: i.uid});
-    } else {
-        api.call('image/unsave',function(){
-            image.update(i.uid);
-        },{image: i.uid});
-    } 
- });
- 
- $('#login form button').click(function(event) {
-  event.preventDefault();
-  api.call('user/login', function(data){
-     auth.set(data.sid);
-     $('#login').dialog('close');
-    }, {
-    username:$('#login_username').val(),
-    password:$('#login_password').val()
-  });
+	$('#login form button').click(function(event) {
+		event.preventDefault();
+		api.call('user/login', function(data){
+			if (!data.error) {
+				auth.set(data.sid);
+				$('#login').dialog('close');
+				$('#login_link').parent().parent().hide();
+				$('#create_link').parent().parent().hide();
+				$('#logout_link').parent().parent().show();
+				$('#right_panel_lv').listview('refresh');
+			}
+		}, {
+			username:$('#login_username').val(),
+			password:$('#login_password').val()
+		});
+	 });
   
- });
+
+  
 
 });
 
 
 $(document).on('pageinit', function() {
  
- $('#report_button').one('click', function() {
-  $('#report form div.ui-btn').remove();
-  api.call('report/all', function(data) {
-   for (i in data) {
-    report = document.createElement('button');
-    $(report).html(data[i].value);
-    $('#report form').append(report).trigger('create');
-   }
-  });
- });
+	$('#report_button').one('click', function() {
+		$('#report form div.ui-btn').remove();
+		api.call('report/all', function(data) {
+			for (i in data) {
+				report = document.createElement('button');
+				$(report).html(data[i].value).val(data[i].id).addClass('report_button');
+				$('#report form').append(report).trigger('create');
+			}
+			$('.report_button').click(function(){
+				event.preventDefault();
+				i = image.current();
+				api.call('image/report', function(){}, {
+					image: i.uid,
+					type: $(this).val()
+				});
+				$('#report').dialog('close');
+			});
+		});
+	});
  
 });
