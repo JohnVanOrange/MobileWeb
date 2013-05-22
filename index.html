@@ -20,14 +20,17 @@
 <div data-role='page' id='one'>  
   <div data-role="header" id='header'> 
     <h1>John VanOrange</h1>
-    <a href='#menu' id='menu-button' class="ui-btn-right" data-rel='popup'></a>
+		<div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">
+			<a href='#' data-role="button"><img src='http://www.gravatar.com/avatar/baf1ada66011a8dace4bee65cf78cb21?s=48&d=retro&r=pg' id='user-icon'height=20 width=20></a>
+			<a href='#menu' id='menu-button' data-rel='popup' data-role="button"></a>
+		</div>
   </div>
   
   <div data-role="footer" data-position="fixed">
     <div data-role="controlgroup" data-type="horizontal">
       <a href='#' id='prev' data-icon='arrow-l' data-role="button">Back</a>
-      <a href="#" id='like' data-role="button">Like</a>
       <a href="#" id='dislike' data-role="button">Dislike</a>
+			<a href="#" id='like' data-role="button">Like</a>
       <a href="#" id='save' data-role="button">Save</a>
       <a href='#' id='next' data-icon='arrow-r' data-role="button" data-iconpos='right'>Next</a>
     </div>

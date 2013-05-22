@@ -1,5 +1,9 @@
 var api = {
  client : function (method, callback, opt) {
+  if (!opt) {
+    opt = {};
+  }
+  opt.sid = auth.get();
   var url = api_url + method;
   $.ajax({
    type: 'post',
@@ -27,9 +31,9 @@ var api = {
 
 var image = {
     value : {
-		index : -1,
-		order : new Array(),
-		store : {}
+        index : -1,
+        order : new Array(),
+        store : {}
     },
     next : function() {
         this.value.index++;
@@ -59,9 +63,25 @@ var image = {
         }
         page.load(this.value.store[this.value.order[index]]);
     },
-	current : function() {
-		return this.value.store[this.value.order[this.value.index]];
-	}
+    current : function() {
+        return this.value.store[this.value.order[this.value.index]];
+    },
+    update : function(uid) {
+        api.call('image/get', function(data){
+            image.value.store[uid] = data;
+            page.load(image.value.store[uid]);
+        }, {image: uid});    
+    }
+}
+
+var auth = {
+    token : null,
+    get : function() {
+        return this.token;
+    },
+    set : function(token) {
+        this.token = token;
+    }
 }
 
 
@@ -89,7 +109,7 @@ var page = {
                 $('#save').addClass('highlight'); $('#save .ui-btn-text').html('Saved');
             }
         }
-        $('#one').scrollTop(0);
+        $(document).scrollTop(0);
     }
 }
 
@@ -131,27 +151,47 @@ $(document).ready(function(){
  });
 
  $('#like').click(function() {
-	var i = image.current();
-	$('#like').addClass('highlight');
-	$('#dislike').removeClass('highlight');
-	api.call('image/like',function(){},{image:i.uid});
+    var i = image.current();
+    //$('#like').addClass('highlight');
+    //$('#dislike').removeClass('highlight');
+    api.call('image/like',function(){
+        image.update(i.uid);
+    },{image: i.uid});
  });
  
  $('#dislike').click(function() {
-	var i = image.current();
-	$('#dislike').addClass('highlight');
-	$('#like').removeClass('highlight');
-	api.call('image/dislike',function(){},{image:i.uid});
+    var i = image.current();
+    //$('#dislike').addClass('highlight');
+    //$('#like').removeClass('highlight');
+    api.call('image/dislike',function(){
+        image.update(i.uid);
+    },{image: i.uid});
  });
 
  $('#save').click(function() {
-  var i = image.current();
-  $('#save').toggleClass('highlight');
-  if ($('#save').hasClass('highlight')) {
-   api.call('image/save',function(){},{image:i.uid});
-  } else {
-   api.call('image/unsave',function(){},{image:i.uid});
-  } 
+    var i = image.current();
+    //$('#save').toggleClass('highlight');
+    if (!$('#save').hasClass('highlight')) {
+        api.call('image/save',function(){
+            image.update(i.uid);
+        },{image: i.uid});
+    } else {
+        api.call('image/unsave',function(){
+            image.update(i.uid);
+        },{image: i.uid});
+    } 
+ });
+ 
+ $('#login form button').click(function(event) {
+  event.preventDefault();
+  api.call('user/login', function(data){
+     auth.set(data.sid);
+     $('#login').dialog('close');
+    }, {
+    username:$('#login_username').val(),
+    password:$('#login_password').val()
+  });
+  
  });
 
 });
