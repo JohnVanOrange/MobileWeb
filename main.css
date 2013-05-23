@@ -2,7 +2,7 @@
   font-family: 'Oswald';
   font-style: normal;
   font-weight: 400;
-  src: local('Oswald Regular'), local('Oswald-Regular'), url(/res/fonts/Oswald.woff) format('woff');
+  src: url(res/fonts/Oswald.ttf);
 }
 
 .main-image {
@@ -10,7 +10,7 @@
 }
 
 .ui-body-c {
-  background-image: url('/res/img/grey_wash_wall.png');
+  background-image: url('res/img/grey_wash_wall.png');
 }
 
 .ui-header h1.ui-title {
@@ -20,7 +20,7 @@
   margin-left: 0.6em;
   margin-top: 0.2em;
   margin-bottom: 0.3em;
-  background: url('/res/orange_slice_title.svg') left no-repeat;
+  background: url('res/orange_slice_title.svg') left no-repeat;
   font-family: 'Oswald', sans-serif;
 }
 
