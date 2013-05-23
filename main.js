@@ -135,6 +135,8 @@ var add_icon = function(id, icon){
 $(document).ready(function(){
 	$('#logout_link').parent().parent().hide();
 	$('#right_panel_lv').listview('refresh');
+	$('#user-icon').hide();
+	$('.ui-btn-right').controlgroup('refresh');
 	
 	add_icon('menu-button', 'menu');
 	add_icon('like', 'thumbs-up');
@@ -189,6 +191,9 @@ $(document).ready(function(){
 				$('#create_link').parent().parent().hide();
 				$('#logout_link').parent().parent().show();
 				$('#right_panel_lv').listview('refresh');
+				$('#user-icon').show();
+				$('.ui-btn-right').controlgroup('refresh');
+				$('#user-icon span').css('padding', '0.2em 0.6em');
 			}
 		}, {
 			username:$('#login_username').val(),
