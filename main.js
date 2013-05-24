@@ -21,6 +21,7 @@ var api = {
 						console.log(response.message);
 						//$('#info_popup p').html(response.message);
 						//$('#info_popup').popup('open');
+						window.plugins.toast.shortToast(response.message);
 					}
 				} catch(e) {
 					exception_handler(e);
@@ -142,7 +143,7 @@ var add_icon = function(id, icon){
 }
 
 $(document).on('deviceready', function(){
-	//navigator.splashscreen.hide();	
+	//navigator.splashscreen.hide();
 });
 
 $(document).ready(function(){
