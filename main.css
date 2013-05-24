@@ -43,3 +43,8 @@
 #save.highlight {
   color: yellow;
 }
+
+#error_popup {
+  background: red;
+  font-weight: bold;
+}

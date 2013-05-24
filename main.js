@@ -17,6 +17,11 @@ var api = {
 						throw {name: response.error, message: response.message};
 					}
 					callback(response);
+					if (response.message) {
+						console.log(response.message);
+						//$('#info_popup p').html(response.message);
+						//$('#info_popup').popup('open');
+					}
 				} catch(e) {
 					exception_handler(e);
 				}
@@ -124,7 +129,11 @@ var exception_handler = function(e) {
 		$.mobile.changePage($('#login'), {role: 'dialog'});
 		break;
 	}
-	navigator.notification.alert(e.message);
+	if (navigator.notifcation) {
+		//navigator.notification.alert(e.message);
+	}
+	$('#error_popup p').html(e.message);
+	$('#error_popup').popup('open');
 	console.log(e.message);
 }
 
@@ -133,10 +142,13 @@ var add_icon = function(id, icon){
 }
 
 $(document).on('deviceready', function(){
-	navigator.splashscreen.hide();	
+	//navigator.splashscreen.hide();	
 });
 
 $(document).ready(function(){
+	$('#error_popup').popup();
+	$('#info_popup').popup();
+	
 	$('#logout_link').parent().parent().hide();
 	$('#right_panel_lv').listview('refresh');
 	$('#user-icon').hide();
