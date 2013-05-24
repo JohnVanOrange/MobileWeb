@@ -124,13 +124,17 @@ var exception_handler = function(e) {
 		$.mobile.changePage($('#login'), {role: 'dialog'});
 		break;
 	}
-	//navigator.notification.alert(e.message);
+	navigator.notification.alert(e.message);
 	console.log(e.message);
 }
 
 var add_icon = function(id, icon){
 	$('#' + id + ' span.ui-btn-inner').addClass('icon-' + icon);
 }
+
+$(document).on('deviceready', function(){
+	navigator.splashscreen.hide();	
+});
 
 $(document).ready(function(){
 	$('#logout_link').parent().parent().hide();
