@@ -19,9 +19,9 @@ var api = {
 					callback(response);
 					if (response.message) {
 						console.log(response.message);
-						//$('#info_popup p').html(response.message);
-						//$('#info_popup').popup('open');
-						window.plugins.toast.shortToast(response.message);
+						if (cordova.exec) {
+							window.plugins.toast.shortToast(response.message);
+						}
 					}
 				} catch(e) {
 					exception_handler(e);
@@ -130,9 +130,6 @@ var exception_handler = function(e) {
 		$.mobile.changePage($('#login'), {role: 'dialog'});
 		break;
 	}
-	if (navigator.notifcation) {
-		//navigator.notification.alert(e.message);
-	}
 	$('#error_popup p').html(e.message);
 	$('#error_popup').popup('open');
 	console.log(e.message);
@@ -148,7 +145,6 @@ $(document).on('deviceready', function(){
 
 $(document).ready(function(){
 	$('#error_popup').popup();
-	$('#info_popup').popup();
 	
 	$('#logout_link').parent().parent().hide();
 	$('#right_panel_lv').listview('refresh');
@@ -203,22 +199,23 @@ $(document).ready(function(){
 		api.call('user/login', function(data){
 			if (!data.error) {
 				auth.set(data.sid);
+				api.call('user/current', function(data){
+					$('#user-icon img').attr('src', 'http://www.gravatar.com/avatar/' + data.email_hash + '?s=40&d=retro&r=pg');
+					$('#user-icon').show();
+					$('.ui-btn-right').controlgroup('refresh');
+					$('#user-icon span').css('padding', '0.2em 0.5em');
+				});
 				$('#login').dialog('close');
 				$('#login_link').parent().parent().hide();
 				$('#create_link').parent().parent().hide();
 				$('#logout_link').parent().parent().show();
 				$('#right_panel_lv').listview('refresh');
-				$('#user-icon').show();
-				$('.ui-btn-right').controlgroup('refresh');
-				$('#user-icon span').css('padding', '0.2em 0.6em');
 			}
 		}, {
 			username:$('#login_username').val(),
 			password:$('#login_password').val()
 		});
 	 });
-  
-
   
 
 });
