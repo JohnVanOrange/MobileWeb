@@ -114,7 +114,7 @@ var page = {
                 $('#save').addClass('highlight'); $('#save .ui-btn-text').html('Saved');
             }
         }
-        $(document).scrollTop(0);
+        $.mobile.silentScroll(0);
     }
 }
 
@@ -159,29 +159,29 @@ $(document).ready(function(){
 	image.next();
 	image.new(); image.new();
  
-	$('#prev').click(function() {
+	$('#prev').on('vclick', function() {
 		image.prev();   
 	});
 	 
-	$('#next').click(function() {
+	$('#next').on('vclick', function() {
 		image.next();   
 	});
 	
-	$('#like').click(function() {
+	$('#like').on('vclick', function() {
 		var i = image.current();
 		api.call('image/like',function(){
 			image.update(i.uid);
 		},{image: i.uid});
 	});
 	 
-	$('#dislike').click(function() {
+	$('#dislike').on('vclick', function() {
 		var i = image.current();
 		api.call('image/dislike',function(){
 			image.update(i.uid);
 		},{image: i.uid});
 	});
 	
-	$('#save').click(function() {
+	$('#save').on('vclick', function() {
 		var i = image.current();
 		if (!$('#save').hasClass('highlight')) {
 			api.call('image/save',function(){
@@ -193,8 +193,9 @@ $(document).ready(function(){
 			},{image: i.uid});
 		} 
 	});
- 
-	$('#login form button').click(function(event) {
+  
+  //login
+	$('#login form button').on('vclick', function(event) {
 		event.preventDefault();
 		api.call('user/login', function(data){
 			if (!data.error) {
@@ -205,17 +206,34 @@ $(document).ready(function(){
 					$('.ui-btn-right').controlgroup('refresh');
 					$('#user-icon span').css('padding', '0.2em 0.5em');
 				});
-				$('#login').dialog('close');
+        if ($.mobile.activePage.find("#login_username").is(":visible")) {
+          $('#login').dialog('close');
+        }
 				$('#login_link').parent().parent().hide();
 				$('#create_link').parent().parent().hide();
 				$('#logout_link').parent().parent().show();
 				$('#right_panel_lv').listview('refresh');
 			}
 		}, {
-			username:$('#login_username').val(),
-			password:$('#login_password').val()
+			username: $('#login_username').val(),
+			password: $('#login_password').val()
 		});
 	 });
+  
+  //create
+  $('#create form button').on('vclick', function(event){
+    event.preventDefault();
+    api.call('user/add', function(data){
+      $('#login_username').val($('#create_username').val());
+      $('#login_password').val($('#create_password').val());
+      $('#login form button').trigger('vclick');
+      $('#create').dialog('close');
+    }, {
+      username: $('#create_username').val(),
+      password: $('#create_password').val(),
+      email: $('#create_email').val()
+    });
+  });
   
 
 });
@@ -223,7 +241,7 @@ $(document).ready(function(){
 
 $(document).on('pageinit', function() {
  
-	$('#report_button').one('click', function() {
+	$('#report_button').one('vclick', function() {
 		$('#report form div.ui-btn').remove();
 		api.call('report/all', function(data) {
 			for (i in data) {
@@ -231,7 +249,7 @@ $(document).on('pageinit', function() {
 				$(report).html(data[i].value).val(data[i].id).addClass('report_button');
 				$('#report form').append(report).trigger('create');
 			}
-			$('.report_button').click(function(){
+			$('.report_button').on('vclick', function(){
 				event.preventDefault();
 				i = image.current();
 				api.call('image/report', function(){}, {
