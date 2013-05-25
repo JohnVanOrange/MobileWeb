@@ -24,6 +24,14 @@
   font-family: 'Oswald', sans-serif;
 }
 
+footer div {
+  line-height: 1.5em;
+}
+
+footer span {
+  font-size: 95%;
+}
+
 .ui-footer {
   text-align: center;
 }
