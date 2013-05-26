@@ -80,12 +80,14 @@ var image = {
 }
 
 var auth = {
-    token : null,
     get : function() {
-        return this.token;
+      return localStorage.getItem("sid");
     },
     set : function(token) {
-        this.token = token;
+      localStorage.setItem("sid", token);
+    },
+    unset : function() {
+      localStorage.removeItem("sid");
     }
 }
 
@@ -115,6 +117,27 @@ var page = {
             }
         }
         $.mobile.silentScroll(0);
+    },
+    refresh_auth : function() {
+      if (auth.get()) {
+        api.call('user/current', function(data){
+					$('#user-icon img').attr('src', 'http://www.gravatar.com/avatar/' + data.email_hash + '?s=40&d=retro&r=pg');
+					$('#user-icon').show();
+					$('.ui-btn-right').controlgroup('refresh');
+				});
+        $('#login_link').parent().parent().hide();
+				$('#create_link').parent().parent().hide();
+				$('#logout_link').parent().parent().show();
+				$('#right_panel_lv').listview('refresh');
+      }
+      else {
+        $('#user-icon').hide();
+        $('.ui-btn-right').controlgroup('refresh');
+        $('#login_link').parent().parent().show();
+        $('#create_link').parent().parent().show();
+        $('#logout_link').parent().parent().hide();
+        $('#right_panel_lv').listview('refresh');
+      }
     }
 }
 
@@ -143,13 +166,10 @@ $(document).on('deviceready', function(){
 	//navigator.splashscreen.hide();
 });
 
-$(document).ready(function(){
+$(document).one('pageinit', function() {
+  page.refresh_auth();
+  
 	$('#error_popup').popup();
-	
-	$('#logout_link').parent().parent().hide();
-	$('#right_panel_lv').listview('refresh');
-	$('#user-icon').hide();
-	$('.ui-btn-right').controlgroup('refresh');
 	
 	add_icon('menu-button', 'menu');
 	add_icon('like', 'thumbs-up');
@@ -200,19 +220,10 @@ $(document).ready(function(){
 		api.call('user/login', function(data){
 			if (!data.error) {
 				auth.set(data.sid);
-				api.call('user/current', function(data){
-					$('#user-icon img').attr('src', 'http://www.gravatar.com/avatar/' + data.email_hash + '?s=40&d=retro&r=pg');
-					$('#user-icon').show();
-					$('.ui-btn-right').controlgroup('refresh');
-					$('#user-icon span').css('padding', '0.2em 0.5em');
-				});
+        page.refresh_auth();
         if ($.mobile.activePage.find("#login_username").is(":visible")) {
           $('#login').dialog('close');
         }
-				$('#login_link').parent().parent().hide();
-				$('#create_link').parent().parent().hide();
-				$('#logout_link').parent().parent().show();
-				$('#right_panel_lv').listview('refresh');
 			}
 		}, {
 			username: $('#login_username').val(),
@@ -220,7 +231,17 @@ $(document).ready(function(){
 		});
 	 });
   
-  //create
+  //logout
+  $('#logout_link').on('vclick', function(event){
+    event.preventDefault();
+    api.call('user/logout', function(data){
+      auth.unset();
+      page.refresh_auth();
+      $('#menu').panel('close');
+    });
+  });
+  
+  //create account
   $('#create form button').on('vclick', function(event){
     event.preventDefault();
     api.call('user/add', function(data){
@@ -234,13 +255,8 @@ $(document).ready(function(){
       email: $('#create_email').val()
     });
   });
-  
-
-});
-
-
-$(document).on('pageinit', function() {
  
+  //report image
 	$('#report_button').one('vclick', function() {
 		$('#report form div.ui-btn').remove();
 		api.call('report/all', function(data) {

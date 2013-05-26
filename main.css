@@ -56,3 +56,8 @@ footer span {
   background: red;
   font-weight: bold;
 }
+
+#user-icon span {
+  padding: 4px 0.5em;
+  height: 21px;
+}
