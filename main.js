@@ -244,16 +244,25 @@ $(document).one('pageinit', function() {
   //create account
   $('#create form button').on('vclick', function(event){
     event.preventDefault();
-    api.call('user/add', function(data){
-      $('#login_username').val($('#create_username').val());
-      $('#login_password').val($('#create_password').val());
-      $('#login form button').trigger('vclick');
-      $('#create').dialog('close');
-    }, {
-      username: $('#create_username').val(),
-      password: $('#create_password').val(),
-      email: $('#create_email').val()
-    });
+    try {
+      if ($('#create_password').val() !== $('#create_password2').val()) {
+        throw {name: 0, message: "Passwords do not match"};
+      }
+      else {
+        api.call('user/add', function(data){
+          $('#login_username').val($('#create_username').val());
+          $('#login_password').val($('#create_password').val());
+          $('#login form button').trigger('vclick');
+          $('#create').dialog('close');
+        }, {
+          username: $('#create_username').val(),
+          password: $('#create_password').val(),
+          email: $('#create_email').val()
+        });
+      }
+    } catch(e) {
+      exception_handler(e);
+    }
   });
  
   //report image
@@ -276,5 +285,9 @@ $(document).one('pageinit', function() {
 			});
 		});
 	});
+  
+  $('#login form a').on('vclick', function(){
+  
+  });
  
 });
