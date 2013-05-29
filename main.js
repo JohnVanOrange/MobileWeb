@@ -91,15 +91,19 @@ var auth = {
     }
 }
 
-
 var page = {
     add : function(image) {
-        var $image = $('<img id="' + image.uid + '" class="main-image" src="' + image.image_url + '">').hide();
+        var $image = $('<div id="' + image.uid + '" class="main-image"><img src="' + image.image_url + '"></div>').hide();
         $('div#header').after($image);
     },
     load : function(image) {
         $('.main-image').hide();
         $('#' + image.uid).show();
+        var myScroll = new iScroll(image.uid, {
+          zoom: true,
+          hScrollbar: false,
+          vScrollbar: false
+        });
         //reset buttons
         $('#like').removeClass('highlight'); $('#like .ui-btn-text').html('Like');
         $('#dislike').removeClass('highlight'); $('#dislike .ui-btn-text').html('Dislike');
