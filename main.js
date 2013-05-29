@@ -290,15 +290,13 @@ $(document).one('pageinit', function() {
 	//share
 	$('#share_button').on('vclick', function() {
 		var share = cordova.require("cordova/plugin/share");
-		var i = image.current;
+		var i = image.current();
 		share.show(
 			{
 				subject: 'Sharing this from John VanOrange',
 				text: 'Check this out: ' + i.page_url
 			},
-			function() {
-				window.plugins.toast.shortToast('Image Shared');
-			},
+			function() {},
 			function() {}
 		);
 	});
