@@ -9,9 +9,10 @@
   <link rel="stylesheet" href="res/jquery/jquery.mobile-1.3.1.min.css" />
   <script src="res/jquery/jquery-1.9.1.min.js"></script>
   <script src="res/jquery/jquery.mobile-1.3.1.min.js"></script>
-  <script src="toast.js"></script>
   <script src="main.js"></script>
   <script src="cordova-2.7.0.js"></script>
+  <script src="toast.js"></script>
+  <script src="share.js"></script>
   <link rel='stylesheet' href='res/fontello/fontello.css' />
   <link rel='stylesheet' href='res/fontello/fontello-codes.css' />
   <link rel='stylesheet' href='main.css' />
@@ -24,7 +25,8 @@
     <h1>John VanOrange</h1>
 		<div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">
 			<a href='#' id='user-icon' data-role="button"><img src='' id='user-icon'height=20 width=20></a>
-			<a href='#menu' id='menu-button' data-rel='popup' data-role="button"></a>
+            <a href='#' id='share_button' data-role="button"></a>
+			<a href='#menu' id='menu_button' data-rel='popup' data-role="button"></a>
 		</div>
   </div>
   
@@ -32,7 +34,7 @@
     <div data-role="controlgroup" data-type="horizontal">
       <a href='#' id='prev' data-icon='arrow-l' data-role="button">Back</a>
       <a href="#" id='dislike' data-role="button">Dislike</a>
-			<a href="#" id='like' data-role="button">Like</a>
+	  <a href="#" id='like' data-role="button">Like</a>
       <a href="#" id='save' data-role="button">Save</a>
       <a href='#' id='next' data-icon='arrow-r' data-role="button" data-iconpos='right'>Next</a>
     </div>

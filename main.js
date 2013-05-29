@@ -171,7 +171,8 @@ $(document).one('pageinit', function() {
   
 	$('#error_popup').popup();
 	
-	add_icon('menu-button', 'menu');
+	add_icon('share_button', 'share');
+	add_icon('menu_button', 'menu');
 	add_icon('like', 'thumbs-up');
 	add_icon('dislike', 'thumbs-down');
 	add_icon('save', 'star-1');
@@ -265,7 +266,7 @@ $(document).one('pageinit', function() {
     }
   });
  
-  //report image
+	//report image
 	$('#report_button').one('vclick', function() {
 		$('#report form div.ui-btn').remove();
 		api.call('report/all', function(data) {
@@ -286,8 +287,20 @@ $(document).one('pageinit', function() {
 		});
 	});
   
-  $('#login form a').on('vclick', function(){
-  
-  });
+	//share
+	$('#share_button').on('vclick', function() {
+		var share = cordova.require("cordova/plugin/share");
+		var i = image.current;
+		share.show(
+			{
+				subject: 'Sharing this from John VanOrange',
+				text: 'Check this out: ' + i.page_url
+			},
+			function() {
+				window.plugins.toast.shortToast('Image Shared');
+			},
+			function() {}
+		);
+	});
  
 });
