@@ -289,16 +289,28 @@ $(document).one('pageinit', function() {
   
 	//share
 	$('#share_button').on('vclick', function() {
-		var share = cordova.require("cordova/plugin/share");
+		if (cordova.exec) {
+			var share = cordova.require("cordova/plugin/share");
+			var i = image.current();
+			share.show(
+				{
+					subject: 'Sharing this from John VanOrange',
+					text: 'Check this out: ' + i.page_url
+				},
+				function() {},
+				function() {}
+			);
+		}
+		else {
+			$.mobile.changePage($('#share'), {role: 'dialog'});
+		}
+	});
+	$('.share-button').on('vclick', function(event) {
+		event.preventDefault();
 		var i = image.current();
-		share.show(
-			{
-				subject: 'Sharing this from John VanOrange',
-				text: 'Check this out: ' + i.page_url
-			},
-			function() {},
-			function() {}
-		);
+		console.log($(this).val() + i.page_url);
+		window.open($(this).val() + i.page_url);
+		$('#share').dialog('close');
 	});
  
 });
