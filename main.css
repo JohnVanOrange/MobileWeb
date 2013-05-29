@@ -6,20 +6,11 @@
 }
 
 .main-image {
-  -webkit-transform:translate3d(0,0,0);
-  overflow: visible!important;
-}
-
-.main-image img {
   width: 100%;
 }
 
 .ui-body-c {
   background-image: url('res/img/grey_wash_wall.png');
-}
-
-#header {
-  -webkit-transform:translate3d(0,0,0);
 }
 
 .ui-header h1.ui-title {
