@@ -47,6 +47,7 @@
         <li><a href="#create" id='create_link' data-rel='dialog'>Create</a></li>
         <li><a href="#" id='logout_link'>Logout</a></li>
       <li data-role="list-divider">Image</li>
+        <li><a href='#tags' data-rel='dialog' id='tags_link'>Tags</a></li>
         <li><a href="#report" data-rel='dialog' id='report_button'>Report</a></li>
     </ul>
   </div>
@@ -81,6 +82,17 @@
     <label for="create_email" class="ui-hidden-accessible">Email</label>
     <input type='email' name='create_email' id='create_email' placeholder='Email'>
     <button type='submit'>Create Account</button>
+  </form>
+</div>
+
+<div data-role="page" id="tags" class="ui-corner-all">
+  <form>
+    <div data-role="header" class="ui-corner-all">
+      <h3>Tags</h3>
+    </div>
+    <ul data-role="listview" data-inset='true'>
+      <li>No tags</li>
+    </ul>
   </form>
 </div>
 

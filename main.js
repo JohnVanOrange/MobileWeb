@@ -266,6 +266,22 @@ $(document).one('pageinit', function() {
     }
   });
  
+	//tags
+	$('#tags_link').on('click', function() {
+		img = image.current();
+		$('#tags form ul li').remove();
+		if (img.tags[0]) {
+			for (i in img.tags) {
+				$('#tags form ul').append('<li>' + img.tags[i].name + '</li>');
+			}
+		}
+		else {
+			$('#tags form ul').append('<li>No tags</li>');
+		}
+		$('#tags form ul').listview('refresh');
+	});
+ 
+ 
 	//report image
 	$('#report_button').one('click', function() {
 		$('#report form div.ui-btn').remove();
