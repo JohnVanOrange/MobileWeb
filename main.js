@@ -180,29 +180,29 @@ $(document).one('pageinit', function() {
 	image.next();
 	image.new(); image.new();
  
-	$('#prev').on('vclick', function() {
+	$('#prev').on('click', function() {
 		image.prev();   
 	});
 	 
-	$('#next').on('vclick', function() {
+	$('#next').on('click', function() {
 		image.next();   
 	});
 	
-	$('#like').on('vclick', function() {
+	$('#like').on('click', function() {
 		var i = image.current();
 		api.call('image/like',function(){
 			image.update(i.uid);
 		},{image: i.uid});
 	});
 	 
-	$('#dislike').on('vclick', function() {
+	$('#dislike').on('click', function() {
 		var i = image.current();
 		api.call('image/dislike',function(){
 			image.update(i.uid);
 		},{image: i.uid});
 	});
 	
-	$('#save').on('vclick', function() {
+	$('#save').on('click', function() {
 		var i = image.current();
 		if (!$('#save').hasClass('highlight')) {
 			api.call('image/save',function(){
@@ -216,7 +216,7 @@ $(document).one('pageinit', function() {
 	});
   
   //login
-	$('#login form button').on('vclick', function(event) {
+	$('#login form button').on('click', function(event) {
 		event.preventDefault();
 		api.call('user/login', function(data){
 			if (!data.error) {
@@ -233,7 +233,7 @@ $(document).one('pageinit', function() {
 	 });
   
   //logout
-  $('#logout_link').on('vclick', function(event){
+  $('#logout_link').on('click', function(event){
     event.preventDefault();
     api.call('user/logout', function(data){
       auth.unset();
@@ -243,7 +243,7 @@ $(document).one('pageinit', function() {
   });
   
   //create account
-  $('#create form button').on('vclick', function(event){
+  $('#create form button').on('click', function(event){
     event.preventDefault();
     try {
       if ($('#create_password').val() !== $('#create_password2').val()) {
@@ -253,7 +253,7 @@ $(document).one('pageinit', function() {
         api.call('user/add', function(data){
           $('#login_username').val($('#create_username').val());
           $('#login_password').val($('#create_password').val());
-          $('#login form button').trigger('vclick');
+          $('#login form button').trigger('click');
           $('#create').dialog('close');
         }, {
           username: $('#create_username').val(),
@@ -267,7 +267,7 @@ $(document).one('pageinit', function() {
   });
  
 	//report image
-	$('#report_button').one('vclick', function() {
+	$('#report_button').one('click', function() {
 		$('#report form div.ui-btn').remove();
 		api.call('report/all', function(data) {
 			for (i in data) {
@@ -275,7 +275,7 @@ $(document).one('pageinit', function() {
 				$(report).html(data[i].value).val(data[i].id).addClass('report_button');
 				$('#report form').append(report).trigger('create');
 			}
-			$('.report_button').on('vclick', function(){
+			$('.report_button').on('click', function(){
 				event.preventDefault();
 				i = image.current();
 				api.call('image/report', function(){}, {
@@ -288,7 +288,7 @@ $(document).one('pageinit', function() {
 	});
   
 	//share
-	$('#share_button').on('vclick', function() {
+	$('#share_button').on('click', function() {
 		if (cordova.exec) {
 			var share = cordova.require("cordova/plugin/share");
 			var i = image.current();
@@ -305,7 +305,7 @@ $(document).one('pageinit', function() {
 			$.mobile.changePage($('#share'), {role: 'dialog'});
 		}
 	});
-	$('.share-button').on('vclick', function(event) {
+	$('.share-button').on('click', function(event) {
 		event.preventDefault();
 		var i = image.current();
 		console.log($(this).val() + i.page_url);
