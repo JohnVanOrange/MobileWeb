@@ -104,6 +104,7 @@ var page = {
         $('#like').removeClass('highlight'); $('#like .ui-btn-text').html('Like');
         $('#dislike').removeClass('highlight'); $('#dislike .ui-btn-text').html('Dislike');
         $('#save').removeClass('highlight'); $('#save .ui-btn-text').html('Save');
+				$('#tag_shortcut').hide();
         //set buttons
         if (image.data) {
             if (image.data.like) {
@@ -116,6 +117,10 @@ var page = {
                 $('#save').addClass('highlight'); $('#save .ui-btn-text').html('Saved');
             }
         }
+				//set tag icon
+				if (image.tags[0]) {
+					$('#tag_shortcut').show();
+				}
         $.mobile.silentScroll(0);
     },
     refresh_auth : function() {
@@ -267,7 +272,7 @@ $(document).one('pageinit', function() {
   });
  
 	//tags
-	$('#tags_link').on('click', function() {
+	$('#tags').on('pagebeforeshow', function() {
 		img = image.current();
 		$('#tags form ul li').remove();
 		if (img.tags[0]) {
@@ -280,7 +285,6 @@ $(document).one('pageinit', function() {
 		}
 		$('#tags form ul').listview('refresh');
 	});
- 
  
 	//report image
 	$('#report_button').one('click', function() {
