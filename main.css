@@ -5,6 +5,20 @@
   src: url(res/fonts/Oswald.ttf);
 }
 
+@font-face {
+  font-family: 'PoiretOne';
+  font-style: normal;
+  font-weight: 400;
+  src: url(res/fonts/PoiretOne.ttf);
+}
+
+@font-face {
+  font-family: 'Boogaloo';
+  font-style: normal;
+  font-weight: 400;
+  src: url(res/fonts/Boogaloo.ttf);
+}
+
 .main-image {
   width: 100%;
 }
@@ -13,15 +27,17 @@
   background-image: url('res/img/grey_wash_wall.png');
 }
 
+.ui-header {
+  height: 38px;
+}
+
 .ui-header h1.ui-title {
   font-size: 20px;
   text-align: left;
-  padding-left: 30px;
-  margin-left: 0.6em;
+  padding-left: 32px;
+  margin-left: 0.5em;
   margin-top: 0.2em;
   margin-bottom: 0.3em;
-  background: url('res/orange_slice_title.svg') left no-repeat;
-  font-family: 'Oswald', sans-serif;
 }
 
 footer div {

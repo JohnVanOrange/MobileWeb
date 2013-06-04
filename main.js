@@ -4,7 +4,7 @@ var api = {
 			opt = {};
 		}
 		opt.sid = auth.get();
-		var url = api_url + method;
+		var url = config.api_url + method;
 		$.ajax({
 			type: 'post',
 			async: false,
@@ -173,15 +173,25 @@ $(document).on('deviceready', function(){
 
 $(document).one('pageinit', function() {
   page.refresh_auth();
-  
-	$('#error_popup').popup();
 	
+  $(":jqmData(role='page')").attr("data-title", config.name);
+  $('h1').text(config.name);
+  $('.ui-header h1.ui-title').css({
+    'font-family' : config.title_font + ', sans-serif',
+    'background' : "url('res/logo/" + config.logo + "')",
+    'background-size' : '28px',
+    'background-position' : 'left',
+    'background-repeat' : 'no-repeat'
+  });
+  
 	add_icon('share_button', 'share');
 	add_icon('menu_button', 'menu');
 	add_icon('like', 'thumbs-up');
 	add_icon('dislike', 'thumbs-down');
 	add_icon('save', 'star-1');
  
+  $('#error_popup').popup();
+  
 	image.next();
 	image.new(); image.new();
  
@@ -314,7 +324,7 @@ $(document).one('pageinit', function() {
 			var i = image.current();
 			share.show(
 				{
-					subject: 'Sharing this from John VanOrange',
+					subject: 'Sharing this from ' + config.name,
 					text: 'Check this out: ' + i.page_url
 				},
 				function() {},

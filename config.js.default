@@ -1,0 +1,6 @@
+var config = {
+	name :				'John VanOrange',
+	api_url :			'http://johnvanorange.com/api/',
+	logo :				'orange_slice_title.svg',
+	title_font :	'Oswald'
+}
