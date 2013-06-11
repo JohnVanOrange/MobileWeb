@@ -19,10 +19,10 @@
 <body>
 
 <div data-role='page' id='one'>  
-  <div data-role="header" id='header'> 
+  <div data-role="header" id='header'>
     <h1></h1>
 		<div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">
-			<a href='#' id='user-icon' data-role="button"><img src='' height=20 width=20></a>
+			<a href='#usermenu' id='user_icon' data-rel='popup' data-role="button"><img src='' height=20 width=20></a>
       <a href='#' id='share_button' data-role="button"></a>
 			<a href='#menu' id='menu_button' data-rel='popup' data-role="button"></a>
 		</div>
@@ -40,12 +40,17 @@
     </div>
   </footer>
   
+	<div data-role="panel" id="usermenu" data-position="left" data-display="push">
+		<ul data-role="listview" data-theme="a" id='left_panel_lv'>
+      <li><a href="#" id='logout_link'>Logout</a></li>
+    </ul>
+	</div>
+	
   <div data-role="panel" id="menu" data-position="right" data-display="push">
     <ul data-role="listview" data-theme="a" id='right_panel_lv'>
-      <li data-role="list-divider">Account</li>
+      <li data-role="list-divider" id='account_div'>Account</li>
         <li><a href="#login" id='login_link' data-rel='dialog' data-transition="none">Login</a></li>
         <li><a href="#create" id='create_link' data-rel='dialog' data-transition="none">Create</a></li>
-        <li><a href="#" id='logout_link'>Logout</a></li>
       <li data-role="list-divider">Image</li>
         <li><a href='#tags' data-rel='dialog' id='tags_link' data-transition="none">Tags</a></li>
         <li><a href="#report" data-rel='dialog' id='report_button' data-transition="none">Report</a></li>

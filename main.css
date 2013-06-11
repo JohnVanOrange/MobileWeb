@@ -31,6 +31,10 @@
   height: 38px;
 }
 
+.ui-header .ui-btn {
+  height: 30px;
+}
+
 .ui-header h1.ui-title {
   font-size: 20px;
   text-align: left;
@@ -73,9 +77,8 @@ footer span {
   font-weight: bold;
 }
 
-#user-icon span {
+#user_icon span {
   padding: 4px 0.5em;
-  height: 19px;
 }
 
 #tag_shortcut {

@@ -126,21 +126,23 @@ var page = {
     refresh_auth : function() {
       if (auth.get()) {
         api.call('user/current', function(data){
-					$('#user-icon img').attr('src', 'http://www.gravatar.com/avatar/' + data.email_hash + '?s=40&d=retro&r=pg');
-					$('#user-icon').show();
+					$('#user_icon img').attr('src', 'http://www.gravatar.com/avatar/' + data.email_hash + '?s=40&d=retro&r=pg');
+					$('#user_icon').show();
 					$('.ui-btn-right').controlgroup('refresh');
 				});
         $('#login_link').parent().parent().hide();
 				$('#create_link').parent().parent().hide();
-				$('#logout_link').parent().parent().show();
+				//$('#logout_link').parent().parent().show();
+        $('#account_div').hide();
 				$('#right_panel_lv').listview('refresh');
       }
       else {
-        $('#user-icon').hide();
+        $('#user_icon').hide();
         $('.ui-btn-right').controlgroup('refresh');
         $('#login_link').parent().parent().show();
         $('#create_link').parent().parent().show();
-        $('#logout_link').parent().parent().hide();
+        //$('#logout_link').parent().parent().hide();
+        $('#account_div').show();
         $('#right_panel_lv').listview('refresh');
       }
     }
@@ -253,7 +255,7 @@ $(document).one('pageinit', function() {
     api.call('user/logout', function(data){
       auth.unset();
       page.refresh_auth();
-      $('#menu').panel('close');
+      $('#usermenu').panel('close');
     });
   });
   
