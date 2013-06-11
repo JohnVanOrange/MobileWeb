@@ -297,6 +297,39 @@ $(document).one('pageinit', function() {
 		}
 		$('#tags form ul').listview('refresh');
 	});
+	
+	//add tags
+	$('#add_tag').on('pagebeforeshow', function() {
+		$('#add_tag_name').val('');
+		$('#tag_suggest li').remove();
+		$('#tag_suggest').listview('refresh');
+	});
+	$('#add_tag').on('pageshow', function() {
+		$('#add_tag_name').focus();
+	});
+	$('#add_tag_name').on('keyup', function(){
+		$('#tag_suggest li').remove();
+		$('#tag_suggest').append('<li><a href="#">' + $('#add_tag_name').val() + '</a></li>');
+		if ($('#add_tag_name').val().length > 2) {
+			api.call('tag/suggest', function(data) {
+				for (i in data) {
+					$('#tag_suggest').append('<li><a href="#">' + data[i] + '</a></li>');
+				}
+			}, {term: $('#add_tag_name').val()})
+		}
+		$('#tag_suggest').listview('refresh');
+	});
+	$('#tag_suggest').on('click', 'a', function() {
+		i = image.current();
+		api.call('tag/add',function(){
+			image.update(i.uid);
+			$('#add_tag').dialog('close');
+			
+		}, {
+			name: $(this).text(),
+			image: i.uid
+		});
+	});
  
 	//report image
 	$('#report_button').one('click', function() {

@@ -27,11 +27,11 @@
   background-image: url('res/img/grey_wash_wall.png');
 }
 
-.ui-header {
+#header {
   height: 38px;
 }
 
-.ui-header .ui-btn {
+#header .ui-btn {
   height: 30px;
 }
 
