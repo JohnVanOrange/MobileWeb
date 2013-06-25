@@ -36,47 +36,56 @@ var api = {
 
 var image = {
     value : {
-        index : -1,
-        order : new Array(),
-        store : {}
+      index : -1,
+      order : new Array(),
+      store : {}
     },
     next : function() {
-        this.value.index++;
-        if (this.value.order.length <= (this.value.index + 2)) {
-            this.new();
-        }
-        this.set(this.value.index,'next');
+      this.value.index++;
+      if (this.value.order.length <= (this.value.index + 2)) {
+        this.new();
+      }
+      this.set(this.value.index,'next');
     },
     prev : function() {
-        if (this.value.index > 0) {
-            this.value.index--;
-        }
-        this.set(this.value.index,'prev');
+      if (this.value.index > 0) {
+        this.value.index--;
+      }
+      this.set(this.value.index,'prev');
     },
     new : function() {
-        api.call('image/random', function(data){
-          image.value.store[data.uid] = data;
-          image.value.order.push(data.uid);
-          page.add(data);
-        });
-        return;
+      api.call('image/random', function(data){
+				image.value.store[data.uid] = data;
+        image.value.order.push(data.uid);
+        page.add(data);
+      });
+      return;
     },
     set : function(index, direction) {
-        reverse = false;
-        if (direction == 'prev') {
-            reverse = true;
-        }
-        page.load(this.value.store[this.value.order[index]]);
+			reverse = false;
+      if (direction == 'prev') {
+        reverse = true;
+      }
+      page.load(this.value.store[this.value.order[index]]);
     },
     current : function() {
-        return this.value.store[this.value.order[this.value.index]];
+      return this.value.store[this.value.order[this.value.index]];
     },
     update : function(uid) {
-        api.call('image/get', function(data){
-            image.value.store[uid] = data;
-            page.load(image.value.store[uid]);
-        }, {image: uid});    
-    }
+      api.call('image/get', function(data){
+        image.value.store[uid] = data;
+        page.load(image.value.store[uid]);
+      }, {image: uid});    
+    },
+		load : function(uid) {
+      api.call('image/get', function(data){
+        image.value.store[data.uid] = data;
+				image.value.index++;
+				image.value.order.splice(image.value.index, 0, data.uid);
+				page.add(data);
+        page.load(image.value.store[uid]);
+      }, {image: uid});    
+		}
 }
 
 var auth = {
