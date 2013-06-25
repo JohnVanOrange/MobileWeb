@@ -2,21 +2,21 @@
   font-family: 'Oswald';
   font-style: normal;
   font-weight: 400;
-  src: url(res/fonts/Oswald.ttf);
+  src: url(../fonts/Oswald.ttf);
 }
 
 @font-face {
   font-family: 'PoiretOne';
   font-style: normal;
   font-weight: 400;
-  src: url(res/fonts/PoiretOne.ttf);
+  src: url(../fonts/PoiretOne.ttf);
 }
 
 @font-face {
   font-family: 'Boogaloo';
   font-style: normal;
   font-weight: 400;
-  src: url(res/fonts/Boogaloo.ttf);
+  src: url(../fonts/Boogaloo.ttf);
 }
 
 .main-image {
@@ -24,7 +24,7 @@
 }
 
 .ui-body-c {
-  background-image: url('res/img/grey_wash_wall.png');
+  background-image: url(../img/grey_wash_wall.png);
 }
 
 #header {
