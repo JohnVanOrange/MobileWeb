@@ -94,8 +94,13 @@ footer span {
 
 .thumb {
 	display: inline-block;
-	height: 164px;
-	width: 244px;
+	height: 168px;
+	width: 248px!important;
+  cursor: pointer;
+  background-color: rgba(68, 68, 68, 0.7);
+  margin: 4px;
+  padding: 4px;
+  border-radius: 8px;
 }
 
 .thumb img {
@@ -105,4 +110,8 @@ footer span {
 
 #tags form ul li {
 	cursor: pointer;
+}
+
+#tags form ul li.notag {
+  cursor: default;
 }
