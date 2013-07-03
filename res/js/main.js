@@ -166,6 +166,38 @@ var page = {
 			{
 				'tag' : tagbase
 			});
+		},
+		saved_load : function() {
+			api.call('user/current', function(user){
+				api.call('user/saved', function(data){
+					$('#thumb_view .ui-grid-a div').remove();
+					for (i in data) {
+						(i%2 == 0) ? col = 'a' : col = 'b';
+						$('#thumb_view .ui-grid-a').append('<div data-uid="' + data[i].uid + '" class="thumb ui-block-' + col + '"><img src="' + data[i].thumb_url + '"></div>');
+					}
+					$('#thumb_view h1').text('Saved');
+					$.mobile.changePage($('#thumb_view'));
+				},
+				{
+					'username' : user.username
+				});
+			});		
+		},
+		uploads_load : function() {
+			api.call('user/current', function(user){
+				api.call('user/uploaded', function(data){
+					$('#thumb_view .ui-grid-a div').remove();
+					for (i in data) {
+						(i%2 == 0) ? col = 'a' : col = 'b';
+						$('#thumb_view .ui-grid-a').append('<div data-uid="' + data[i].uid + '" class="thumb ui-block-' + col + '"><img src="' + data[i].thumb_url + '"></div>');
+					}
+					$('#thumb_view h1').text('Uploads');
+					$.mobile.changePage($('#thumb_view'));
+				},
+				{
+					'username' : user.username
+				});
+			});		
 		}
 }
 
@@ -396,6 +428,18 @@ $(document).one('pageinit', function() {
 			});
 		});
 	});
+	
+	//saved images
+  $('#saved_link').on('click', function(event){
+    event.preventDefault();
+		page.saved_load();
+  });
+	
+	//uploaded images
+  $('#uploads_link').on('click', function(event){
+    event.preventDefault();
+		page.uploads_load();
+  });
   
 	//share
 	$('#share_button').on('click', function() {
