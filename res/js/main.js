@@ -322,7 +322,9 @@ $(document).one('pageinit', function() {
 		}
 		$('#tags form ul').listview('refresh');
 	});
-	$('#tags form ul').on('click', 'li', function(){
+	
+	//view tags images
+	$('ul.tag_container').on('click', 'li', function(){
 		if ($(this).attr('value')) {
 			page.tag_load($(this).attr('value'), $(this).text());
 		}
@@ -361,6 +363,17 @@ $(document).one('pageinit', function() {
 			name: $(this).text(),
 			image: i.uid
 		});
+	});
+	
+	//top tags
+	$('#taglist').one('pagebeforeshow', function() {
+		$('#taglist form ul li').remove();
+		api.call('tag/top', function(data) {
+			for (i in data) {
+				$('#taglist form ul').append('<li value="' + data[i].basename + '">' + data[i].name + '</li>');
+			}
+		});
+		$('#taglist form ul').listview('refresh');
 	});
  
 	//report image

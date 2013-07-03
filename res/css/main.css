@@ -108,7 +108,7 @@ footer span {
   display: block;
 }
 
-#tags form ul li {
+ul.tag_container li {
 	cursor: pointer;
 }
 

@@ -54,6 +54,8 @@
       <li data-role="list-divider">Image</li>
         <li><a href='#tags' data-rel='dialog' id='tags_link' data-transition="none">Tags</a></li>
         <li><a href="#report" data-rel='dialog' id='report_button' data-transition="none">Report</a></li>
+			<li data-role="list-divider">Info</li>
+				<li><a href='#taglist' data-rel='dialog' id='taglist_link' data-transition="none">Top Tags</a></li>
     </ul>
   </div>
   
@@ -96,7 +98,18 @@
       <h3>Tags</h3>
     </div>
     <a href="#add_tag" data-rel='dialog' data-role="button" data-theme="b">Add</a>
-    <ul data-role="listview" data-inset='true'>
+    <ul data-role="listview" data-inset='true' class='tag_container'>
+      <li>No tags</li>
+    </ul>
+  </form>
+</div>
+
+<div data-role="page" id="taglist" class="ui-corner-all">
+  <form>
+    <div data-role="header" class="ui-corner-all">
+      <h3>Top Tags</h3>
+    </div>
+    <ul data-role="listview" data-inset='true' class='tag_container'>
       <li>No tags</li>
     </ul>
   </form>
