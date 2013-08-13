@@ -131,6 +131,8 @@ var page = {
 					$('#tag_shortcut').show();
 				}
         $.mobile.silentScroll(0);
+				//set download link
+				$('#download_link').attr('href', image.image_url).attr('download', image.filename);
     },
     refresh_auth : function() {
       if (auth.get()) {
@@ -470,6 +472,11 @@ $(document).one('pageinit', function() {
 	$('#thumb_view').on('click', '.thumb', function(){
 		image.load($(this).attr('data-uid'));
 		$.mobile.changePage($('#one'));
+	});
+	
+	//hide menu after clicking download
+	$('#download_link').on('click', function(){
+		$('#menu').panel('close');
 	});
  
 });
