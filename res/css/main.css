@@ -86,7 +86,7 @@ footer span {
   text-decoration: none;
   position: fixed;
   bottom: 45px;
-  right: 5px;
+  left: 5px;
   padding: 10px;
   color: white;
   text-shadow: black 0.1em 0.1em 0.2em;
