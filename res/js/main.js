@@ -63,7 +63,7 @@ var image = {
     },
     set : function(index, direction) {
 			reverse = false;
-      if (direction == 'prev') {
+      if (direction === 'prev') {
         reverse = true;
       }
       page.load(this.value.store[this.value.order[index]]);
@@ -226,7 +226,12 @@ var add_icon = function(id, icon){
 
 $(document).on('deviceready', function(){
 	//navigator.splashscreen.hide();
+	$(document).on('menubutton', function(){
+		$('#menu_button').click();
+	});
 });
+
+
 
 $(document).one('pageinit', function() {
 	$('[data-role="page"]').on('pagebeforeshow', function(){
