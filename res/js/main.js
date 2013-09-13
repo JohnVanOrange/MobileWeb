@@ -479,9 +479,30 @@ $(document).one('pageinit', function() {
 		$.mobile.changePage($('#one'));
 	});
 	
-	//hide menu after clicking download
+	//file download
 	$('#download_link').on('click', function(){
 		$('#menu').panel('close');
-	});
- 
+		if (cordova.exec) {
+			event.preventDefault();
+			i = image.current();
+			var fileTransfer = new FileTransfer();
+			var uri = encodeURI	(i.image_url);
+			var filePath = 'file://sdcard/Pictures/' + config.name + '/' + i.filename;
+
+			fileTransfer.download(
+    			uri,
+    			filePath,
+    			function(entry) {
+        			console.log("download complete: " + entry.fullPath);
+        			window.plugins.toast.shortToast('Image Saved');
+    			},
+    			function(error) {
+        			console.log("download error source " + error.source);
+        			console.log("download error target " + error.target);
+        			console.log("upload error code" + error.code);
+        			window.plugins.toast.shortToast('Error Saving Image');
+    			}
+			);
+		}
+ 	});
 });
