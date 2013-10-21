@@ -45,13 +45,13 @@ var image = {
       if (this.value.order.length <= (this.value.index + 2)) {
         this.new();
       }
-      this.set(this.value.index,'next');
+      this.set(this.value.index);
     },
     prev : function() {
       if (this.value.index > 0) {
         this.value.index--;
       }
-      this.set(this.value.index,'prev');
+      this.set(this.value.index);
     },
     new : function() {
       api.call('image/random', function(data){
@@ -61,11 +61,7 @@ var image = {
       });
       return;
     },
-    set : function(index, direction) {
-			reverse = false;
-      if (direction === 'prev') {
-        reverse = true;
-      }
+    set : function(index) {
       page.load(this.value.store[this.value.order[index]]);
     },
     current : function() {
@@ -224,19 +220,18 @@ var add_icon = function(id, icon){
 	$('#' + id + ' span.ui-btn-inner').addClass('icon-' + icon);
 }
 
+
+
 $(document).on('deviceready', function(){
-	//navigator.splashscreen.hide();
 	$(document).on('menubutton', function(){
 		$('#menu_button').click();
 	});
 });
 
-
-
 $(document).one('pageinit', function() {
-	$('[data-role="page"]').on('pagebeforeshow', function(){
-		//probably can remove this
-	});
+	
+	image.next();
+	image.new(); image.new();
 	
 	$(":jqmData(role='page')").attr("data-title", config.name);
 	$('#one h1').text(config.name);
@@ -257,9 +252,6 @@ $(document).one('pageinit', function() {
 	add_icon('save', 'star-1');
  
   $('#error_popup').popup();
-  
-	image.next();
-	image.new(); image.new();
  
 	$('#prev').on('click', function() {
 		image.prev();   
@@ -505,4 +497,5 @@ $(document).one('pageinit', function() {
 			);
 		}
  	});
+	
 });
