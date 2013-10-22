@@ -34,52 +34,75 @@ var api = {
 	}
 };
 
+if (!sessionStorage['index']) {
+	sessionStorage['index'] = -1;
+}
+if (!sessionStorage['order']) {
+	sessionStorage['order'] = '[]';
+}
+
 var image = {
     value : {
-      index : -1,
-      order : new Array(),
-      store : {}
+      order : {
+				add : function(uid) {
+					var order = this.load();
+					order.push(uid)
+					sessionStorage['order'] = JSON.stringify(order);
+				},
+				load : function () {
+					return JSON.parse(sessionStorage['order']);
+				}
+			},
+      store : function (uid, data) {
+				sessionStorage[uid] = JSON.stringify(data);
+			},
+			load : function (uid) {
+				console.log(uid);
+				return JSON.parse(sessionStorage[uid]);
+			}
     },
     next : function() {
-      this.value.index++;
-      if (this.value.order.length <= (this.value.index + 2)) {
+      sessionStorage['index']++;
+			
+      if (this.value.order.load().length <= (sessionStorage['index'] + 2)) {
         this.new();
       }
-      this.set(this.value.index);
+      this.set(sessionStorage['index']);
     },
     prev : function() {
-      if (this.value.index > 0) {
-        this.value.index--;
+      if (sessionStorage['index'] > 0) {
+        sessionStorage['index']--;
       }
-      this.set(this.value.index);
+      this.set(sessionStorage['index']);
     },
     new : function() {
       api.call('image/random', function(data){
-				image.value.store[data.uid] = data;
-        image.value.order.push(data.uid);
+				console.log('image/new called');
+				image.value.store(data.uid, data);
+        image.value.order.add(data.uid);
         page.add(data);
       });
       return;
     },
     set : function(index) {
-      page.load(this.value.store[this.value.order[index]]);
+			page.load(this.value.load(this.value.order.load()[index]));
     },
     current : function() {
-      return this.value.store[this.value.order[this.value.index]];
+			return this.value.load(this.value.order.load()[sessionStorage['index']]);
     },
     update : function(uid) {
       api.call('image/get', function(data){
-        image.value.store[uid] = data;
-        page.load(image.value.store[uid]);
+				image.value.store(uid, data);
+				page.load(image.value.load(uid));
       }, {image: uid});    
     },
 		load : function(uid) {
       api.call('image/get', function(data){
-        image.value.store[data.uid] = data;
-				image.value.index++;
-				image.value.order.splice(image.value.index, 0, data.uid);
+				image.value.store(data.uid, data);
+				sessionStorage['index']++;
+				image.value.order.load().splice(sessionStorage['index'], 0, data.uid);
 				page.add(data);
-        page.load(image.value.store[uid]);
+				page.load(image.value.load(uid));
       }, {image: uid});    
 		}
 }
@@ -103,6 +126,9 @@ var page = {
         $('div#header').after($image);
     },
     load : function(image) {
+				if ($('#' + image.uid).length == 0) {
+					this.add(image);
+				}
         $('.main-image').hide();
         $('#' + image.uid).show();
         //reset buttons
